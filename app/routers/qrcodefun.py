@@ -2,9 +2,6 @@ import fastapi
 import segno
 import io
 from fastapi.responses import StreamingResponse
-from sqlalchemy.orm import Session
-from .. import models, schemas, utils
-from ..database import get_db
 
 
 router = fastapi.APIRouter(prefix="/qr", tags=["Qr-code"])
