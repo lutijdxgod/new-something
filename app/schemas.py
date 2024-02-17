@@ -1,6 +1,6 @@
 from pydantic import BaseModel, EmailStr
 from datetime import datetime
-from typing import Optional, List
+from typing import Optional, List, Union
 
 
 # class PostBase(BaseModel):
@@ -11,6 +11,10 @@ from typing import Optional, List
 
 # class PostCreate(PostBase):
 #     pass
+
+
+class UserId(BaseModel):
+    id: int
 
 
 class UserOut(BaseModel):
@@ -54,4 +58,19 @@ class Token(BaseModel):
 
 
 class TokenData(BaseModel):
-    id: Optional[str] = None
+    id: int
+
+
+class CreateWorkout(BaseModel):
+    title: str
+    additional_info: str | None
+
+
+class AddExercise(BaseModel):
+    title: str
+
+
+class AddSet(BaseModel):
+    weight: float = 0
+    units: bool = False
+    repetitions: int = 1
