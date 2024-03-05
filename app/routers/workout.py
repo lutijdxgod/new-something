@@ -73,6 +73,25 @@ def add_set(
     new_set_dict = set_info.model_dump()
     new_set_dict.update({"exercise_id": exercise_id})
     new_exercise = models.Set(**new_set_dict)
+
+    existing_sets_of_exercise = (
+        db.query(models.Set).filter(models.Set.exercise_id == exercise_id).all()
+    )
+    sets_done = len(existing_sets_of_exercise)
+    if sets_done >= 2:
+        avg_time_resting = 0
+        current_set = existing_sets_of_exercise[0].performed_at
+        for i in range(1, sets_done):
+            avg_time_resting += (
+                existing_sets_of_exercise[i].performed_at - current_set
+            ).total_seconds()
+            current_set = existing_sets_of_exercise[i].performed_at
+        avg_time_resting /= sets_done
+        exercise_query_to_update = db.query(models.IndividualExercise).filter(
+            models.IndividualExercise.id == exercise_id
+        )
+        exercise_query_to_update.update({"average_time_resting": avg_time_resting})
+
     db.add(new_exercise)
     db.commit()
     db.refresh(new_exercise)

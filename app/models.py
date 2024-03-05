@@ -43,7 +43,6 @@ class Workout(Base):
         TIMESTAMP(timezone=True), nullable=False, server_default=text("now()")
     )
     ended_at = Column(TIMESTAMP(timezone=True))
-    average_time_resting = Column(Integer, nullable=True)
 
 
 class IndividualExercise(Base):
@@ -52,6 +51,7 @@ class IndividualExercise(Base):
     id = Column(Integer, nullable=False, primary_key=True)
     workout_id = Column(Integer, ForeignKey("workouts.id", ondelete="SET NULL"))
     title = Column(String, nullable=False)
+    average_time_resting = Column(Float, nullable=True)
 
 
 class Set(Base):
